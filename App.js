@@ -1,14 +1,32 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
-import DiscoverScreen from './src/screens/DiscoverScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import {Image, StatusBar} from 'react-native';
+import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
 import Local from './src/screens/Local';
 import AddPost from './src/screens/AddPost';
-import Notification from './src/screens/notification';
+import Notification from './src/screens/Notification';
+import DashBoard from './src/screens/DashBoard';
 
 const Tab = createBottomTabNavigator();
+
+const CustomHeader = ({title}) => {
+  return (
+    <View style={styles.header_container}>
+      <Image
+        source={require('./src/assets/icons/hamburger.png')}
+        style={styles.more_option_icon}
+      />
+      <Text style={styles.appName_txt}>BW Story</Text>
+      <Image
+        source={require('./src/assets/icons/loupe.png')}
+        style={styles.more_option_icon}
+      />
+    </View>
+  );
+};
 
 export default function App() {
   return (
@@ -17,7 +35,7 @@ export default function App() {
       <NavigationContainer>
         <Tab.Navigator
           screenOptions={({route}) => ({
-            headerShown: false,
+            header: () => <CustomHeader title={route.name} />,
             tabBarIcon: ({focused, color, size}) => {
               let iconSource;
 
@@ -44,11 +62,11 @@ export default function App() {
                 />
               );
             },
-            tabBarActiveTintColor: '#007bff', // Active icon color
-            tabBarInactiveTintColor: 'gray', // Inactive icon color
-            tabBarStyle: {backgroundColor: '#fff'}, // Background color
+            tabBarActiveTintColor: '#007bff',
+            tabBarInactiveTintColor: 'gray',
+            tabBarStyle: {backgroundColor: '#fff'},
           })}>
-          <Tab.Screen name="Discover" component={DiscoverScreen} />
+          <Tab.Screen name="Discover" component={DashBoard} />
           <Tab.Screen name="Local" component={Local} />
           <Tab.Screen name="Add" component={AddPost} />
           <Tab.Screen name="Alert" component={Notification} />
@@ -58,3 +76,24 @@ export default function App() {
     </>
   );
 }
+const styles = StyleSheet.create({
+  header_container: {
+    flexDirection: 'row',
+    backgroundColor: '#013220',
+    padding: 20,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  more_option_icon: {
+    width: 20,
+    height: 20,
+    tintColor: 'white',
+  },
+
+  appName_txt: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
+});

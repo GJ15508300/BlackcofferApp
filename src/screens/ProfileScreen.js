@@ -167,7 +167,12 @@ const ProfileScreen = () => {
               </Text>
 
               <TouchableOpacity
-                style={styles.locationButton}
+                style={[
+                  styles.locationButton,
+                  {
+                    borderColor: errors.location ? 'red' : '#D3D3D3',
+                  },
+                ]}
                 onPress={getCurrentLocation}>
                 {location ? (
                   <View style={styles.locationContainer}>
@@ -250,7 +255,6 @@ const styles = StyleSheet.create({
   profile_img_space: {
     backgroundColor: '#D8d4d4',
     width: '100%',
-    // height: '30%',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
@@ -310,15 +314,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#D3D3D3',
     padding: 10,
     borderRadius: 8,
-    // marginBottom: 10,
+    borderWidth: 1,
   },
   locationButtonText: {color: '#fff', fontWeight: 'bold'},
   locationContainer: {
     flexDirection: 'row',
-    // alignContent: 'center',
-    // justifyContent: 'center',
     alignItems: 'center',
-    // alignSelf: 'center',
     marginBottom: 10,
   },
   locationText: {
