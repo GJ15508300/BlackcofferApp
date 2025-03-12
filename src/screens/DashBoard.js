@@ -105,7 +105,6 @@ const DashBoard = () => {
               </View>
               <Text style={styles.follow_txt}>Follow</Text>
             </View>
-            {/* <Image source={{uri: item.image}} style={styles.image} /> */}
             <SafeAreaView style={{flex: 1}}>
               <Video
                 // source={{
