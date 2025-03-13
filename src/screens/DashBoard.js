@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useState} from 'react';
 import {
   View,
@@ -7,52 +9,17 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
+  Share,
 } from 'react-native';
 import Video from 'react-native-video';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateItem} from '../redux/dataSlice';
 
 const DashBoard = () => {
-  const sampleData = [
-    {
-      id: '1',
-      prof_name: 'Bot player',
-      location: 'Salem, Tamilnadu',
-      title: 'Breaking News',
-      profile_img: require('../assets/icons/profile-user.png'),
-      data: 'https://www.graydart.com/app-media/vid/mp4/dev_sample_video_1280x720_1mb.mp4',
-    },
-    {
-      id: '2',
-      prof_name: 'jagadeesh',
-      location: 'Salem, Tamilnadu',
-      title: 'Technology Update',
-      profile_img: require('../assets/icons/profile-user.png'),
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '3',
-      prof_name: 'ramasamy',
-      location: 'Salem, Tamilnadu',
-      title: 'React Native Twitter',
-      profile_img: require('../assets/icons/profile-user.png'),
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '4',
-      prof_name: 'sanjay',
-      location: 'Salem, Tamilnadu',
-      title: `React Native Radio React Native Coach is a stream of React Native-related articles on Medium. Curated by Wyatt McBain it contains plenty of interesting articles submitted by various React Native experts. People actually love this blog. It's an honest, fun blog that addresses the issues of irony in software development, its ecosystem, and how it interacts (or doesn't) with business. Wyatt has a smart look at the big picture of coding and will give you a fresh perspective on the React Native world when you might be overwhelmed.`,
-      profile_img: require('../assets/icons/profile-user.png'),
-      image: 'https://via.placeholder.com/150',
-    },
-    {
-      id: '5',
-      prof_name: 'raja',
-      location: 'Salem, Tamilnadu',
-      title: 'React Native Coach',
-      profile_img: require('../assets/icons/profile-user.png'),
-      image: 'https://via.placeholder.com/150',
-    },
-  ];
+  const dispatch = useDispatch();
+  const sampleData_fromRedux = useSelector(state => state.data.items);
+  console.log('sampleData_fromRedux', sampleData_fromRedux);
 
   const filter_category = [
     {id: 1, name: 'All'},
@@ -63,10 +30,44 @@ const DashBoard = () => {
     {id: 6, name: 'Government'},
     {id: 7, name: 'Business'},
   ];
+
+  const handleUpdateFollow = data => {
+    const updatedItem = {
+      ...data,
+      follow: !data.follow,
+    };
+    dispatch(updateItem(updatedItem));
+  };
+
+  const handleUpdateLike = data => {
+    const updatedItem = {
+      ...data,
+      like: !data.like,
+    };
+    dispatch(updateItem(updatedItem));
+  };
+
+  const shareData = async data => {
+    try {
+      const result = await Share.share({
+        message: data.prof_name,
+        url: 'https://example.com',
+        title: data.title,
+      });
+
+      if (result.action === Share.sharedAction) {
+        console.log('Content shared successfully!');
+      } else if (result.action === Share.dismissedAction) {
+        console.log('Share dismissed');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
   return (
     <View style={styles.container}>
       <FlatList
-        data={sampleData}
+        data={sampleData_fromRedux}
         keyExtractor={item => item.id}
         ListHeaderComponent={() => (
           <ScrollView
@@ -84,9 +85,14 @@ const DashBoard = () => {
                   paddingVertical: 5,
                   paddingHorizontal: 10,
                   borderColor: '#013220',
+                  backgroundColor: index === 0 ? '#013220' : 'white',
                 }}>
                 <Text
-                  style={{color: '#013220', fontSize: 14, fontWeight: '800'}}>
+                  style={{
+                    color: index === 0 ? 'white' : '#013220',
+                    fontSize: 14,
+                    fontWeight: '800',
+                  }}>
                   {item.name}
                 </Text>
               </View>
@@ -103,28 +109,44 @@ const DashBoard = () => {
                   <Text style={styles.prof_loc_txt}>{item.location}</Text>
                 </View>
               </View>
-              <Text style={styles.follow_txt}>Follow</Text>
+              <TouchableOpacity onPress={() => handleUpdateFollow(item)}>
+                <Text
+                  style={[
+                    styles.follow_txt,
+                    {
+                      color: item?.follow ? 'white' : 'black',
+                      backgroundColor: item?.follow ? '#013220' : '#f5f5f5',
+                    },
+                  ]}>
+                  {item?.follow ? 'Following' : 'Follow'}
+                </Text>
+              </TouchableOpacity>
             </View>
             <SafeAreaView style={{flex: 1}}>
               <Video
-                // source={{
-                //   uri: item?.data,r
-                // }}
-                source={require('../assets/video/dev_sample_video_1280x720_1mb.mp4')}
+                source={item?.data}
                 style={styles.video}
                 controls={true} // Show play/pause controls
                 resizeMode="cover"
               />
             </SafeAreaView>
             <View style={styles.icon_option_container}>
-              <Image
-                source={require('../assets/icons/heart.png')}
-                style={styles.icon_option}
-              />
-              <Image
-                source={require('../assets/icons/share.png')}
-                style={styles.icon_option}
-              />
+              <TouchableOpacity onPress={() => handleUpdateLike(item)}>
+                <Image
+                  source={
+                    item.like
+                      ? require('../assets/icons/heart.png')
+                      : require('../assets/icons/like.png')
+                  }
+                  style={[styles.icon_option, {tintColor: '#013220'}]}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => shareData(item)}>
+                <Image
+                  source={require('../assets/icons/share.png')}
+                  style={styles.icon_option}
+                />
+              </TouchableOpacity>
               <Image
                 source={require('../assets/icons/speech-bubble.png')}
                 style={styles.icon_option}
@@ -184,8 +206,9 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     borderWidth: 2,
     borderRadius: 30,
-    paddingHorizontal: 5,
+    paddingHorizontal: 8,
     borderColor: 'black',
+    paddingVertical: 5,
   },
   image: {width: '100%', height: 250},
   video: {

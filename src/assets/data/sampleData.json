@@ -1,0 +1,53 @@
+[
+    {
+      "id": "1",
+      "prof_name": "Bot player",
+      "location": "Salem, Tamilnadu",
+      "title": "Breaking News",
+      "profile_img": "../assets/icons/profile-user.png",
+      "data": "../assets/video/dev_sample_video_1280x720_1mb.mp4",
+      "follow":false,
+      "like": false
+    },
+    {
+      "id": "2",
+      "prof_name": "Jagadeesh",
+      "location": "Salem, Tamilnadu",
+      "title": "Technology Update",
+      "profile_img": "../assets/icons/profile-user.png",
+      "data": "../assets/video/dev_sample_video_1280x720_1mb.mp4",
+      "follow":false,
+      "like": false
+    },
+    {
+      "id": "3",
+      "prof_name": "Ramasamy",
+      "location": "Salem, Tamilnadu",
+      "title": "React Native Twitter",
+      "profile_img": "../assets/icons/profile-user.png",
+      "data": "../assets/video/dev_sample_video_1280x720_1mb.mp4",
+      "follow":false,
+      "like": true
+    },
+    {
+      "id": "4",
+      "prof_name": "Sanjay",
+      "location": "Salem, Tamilnadu",
+      "title": "React Native Radio React Native Coach is a stream of React Native-related articles on Medium. Curated by Wyatt McBain it contains plenty of interesting articles submitted by various React Native experts. People actually love this blog. It's an honest, fun blog that addresses the issues of irony in software development, its ecosystem, and how it interacts (or doesn't) with business. Wyatt has a smart look at the big picture of coding and will give you a fresh perspective on the React Native world when you might be overwhelmed.",
+      "profile_img": "../assets/icons/profile-user.png",
+      "data": "../assets/video/dev_sample_video_1280x720_1mb.mp4",
+      "follow": false,
+      "like": true
+    },
+    {
+      "id": "5",
+      "prof_name": "Raja",
+      "location": "Salem, Tamilnadu",
+      "title": "React Native Coach",
+      "profile_img": "../assets/icons/profile-user.png",
+      "data": "../assets/video/dev_sample_video_1280x720_1mb.mp4",
+      "follow": true,
+      "like": false
+    }
+  ]
+  
